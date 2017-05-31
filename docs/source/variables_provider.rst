@@ -1,5 +1,5 @@
 Ansible connection provider settings
-====================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following settings are neccessary to allow Ansible to SSH into the router/switch
 and change to enable-mode. If these variables are undefined the respective values
