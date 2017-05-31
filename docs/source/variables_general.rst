@@ -1,5 +1,5 @@
 General settings                                                                          
-================
+~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml                                                                      
                                                                                           
