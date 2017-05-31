@@ -427,21 +427,11 @@ provides custom Jinja2 filters for creating Cisco type 5 and 7 passwords.
 
 ## Example Playbook
 
-    - hosts: webservers
-      vars_files:
-        - vars/main.yml
-      roles:
-        - { role: geerlingguy.apache }
-
-*Inside `vars/main.yml`*:
-
-    apache_listen_port: 8080
-    apache_vhosts:
-      - {servername: "example.com", documentroot: "/var/www/vhosts/example_com"}
+TODO.
 
 ## License
 
-BSD
+[BSD](LICENSE)
 
 ## Author Information
 
