@@ -83,6 +83,12 @@ Ansible will not change the existing enable secret if this variable is undefined
 Be careful not to lock yourself (and Ansible) out of the router or switch. If necessary update 
 `secure_cisco_ios_provider_auth_pass` to the same value before the next execution of this role.
 
+```
+secure_cisco_ios_save_config: true
+```
+
+Whether to execute `save running-config startup-config` as the last task. Note that the default is true!
+
 ### Local users
 
 A list of local users to add in addition to `secure_cisco_ios_provider_username`. This must be a list of dictionaries
@@ -167,6 +173,8 @@ and Radius settimgs from making their own AAA adjustments.
 secure_cisco_ios_custom_aaa: []
 ```
 
+### Line access
+
 ### Syslog
 
 Configure Syslog logging. If `secure_cisco_ios_domain_lookup` is set to false (the default) only IP addresses can be used
@@ -200,8 +208,66 @@ secure_cisco_ios_timezone: UTC
 secure_cisco_ios_timezone_offset_hours: 0
 secure_cisco_ios_timezone_offset_minutes: 0
 secure_cisco_ios_ntp_servers: []
+```
+
+`secure_cisco_ios_ntp_servers` must be a list of dictionaries with the following keys.
+
+* `server` (required)
+* `version` (1-4)
+* `iburst`
+* `burst`
+* `minpoll` (2^x seconds)
+* `maxpoll` (2^x seconds)
+* `prefer`
+* `source` (source interface)
+* `key` (authentication key)
+
+**Example**
 
 ```
+secure_cisco_ios_timezone: AEST
+secure_cisco_ios_timezone_offset_hours: 10
+secure_cisco_ios_timezone_offset_minutes: 0
+secure_cisco_ios_ntp_servers:
+  - {'server': 10.2.3.5', 'source': 'Loopback0'}
+  - {'server': 10.2.3.4', 'iburst': true, 'minpoll': 4, 'source': 'Loopback0'}
+```
+
+### Interfaces
+
+Configuring "real" interfaces outside the scope of this role but some security related settings can be performed. In
+addition the role will ensure that a `Null0` interface is present.
+
+This is on the [TODO](Todo.md) list.
+
+```
+secure_cisco_ios_cdp_enabled_interfaces: []
+```
+
+List of interface name prefixes on which to enable Cisco Discovery Protocol (CDP). The role will disable CDP on 
+all other interfaces.
+
+**Example**
+
+```
+# Enable CDP on FastEthernet interfaces 1 and 2
+secure_cisco_ios_cdp_enabled_interfaces:
+  - FastEthernet1
+  - FastEthernet2
+```
+
+```
+secure_cisco_ios_shutdown_unused_ethernet_interfaces: false
+```
+
+Shutdown any Ethernet interfaces where the line-protocol is down. This may be particularly useful for switches
+that are easily physically accessible to prevent people from plugging in additional devices. 
+
+### Banner
+
+### SNMP  
+
+### Netflow
 
 ### Exception core files
 
@@ -248,13 +314,52 @@ variables upon which further tasks can be executed conditionally.
 
 ### Hard-coded settings
 
-This role includes a number of tasks that are hard-coded. The resulting Cisco IOS configuration lines are 
-shown below.
+Currently this role includes a number of tasks that are hard-coded. The resulting Cisco IOS configuration lines are 
+shown below. 
 
 ```
-!
+no cdp run
+no service pad
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime msec localtime show-timezone
+service timestamps log datetime msec localtime show-timezone
+service password-encryption
+no ip source-route
 no service tcp-small-servers
 no service udp-small-servers
+!
+aaa new-model
+aaa session-id common
+!
+login block-for 100 attempts 15 within 100
+login quiet-mode access-class 100
+login on-failure log
+login on-success log
+!
+archive
+ log config
+  logging enable
+  logging size 500
+  hidekeys
+!
+interface Null0
+ description Null interface to send "naughty" packets to.
+ no ip unreachables
+!
+interface Loopback0
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+```
+
+### Custom settings
+
+The variable `secure_cisco_ios_custom_lines` can be used to add any additional configuration lines, e.g.
+
+```
+secure_cisco_ios_custom_lines:
+  - no service dhcp
 ```
 
 ## Dependencies
