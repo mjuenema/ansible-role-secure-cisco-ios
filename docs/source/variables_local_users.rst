@@ -1,5 +1,5 @@
 Local users                                                                               
-===========                                                                               
+~~~~~~~~~~~                                                                               
                                                                                           
 A list of local users to add in addition to                                               
 ``secure_cisco_ios_provider_username``. This must be a list of                            
