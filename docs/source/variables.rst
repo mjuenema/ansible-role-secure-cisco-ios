@@ -1,6 +1,5 @@
-**************
 Role Variables
-**************
+--------------
 
 There are a large number of role variables that control what settings                     
 this role will apply to an Cisco IOS router or switch. If applicable the                  
