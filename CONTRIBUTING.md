@@ -14,4 +14,9 @@ should be configured. Personally I am much more a Systems Engineer than a Networ
 to be the ultimate authority on the subject either. Inevitably there is going to be some trade-off between flexibility and 
 simplicity that must be balanced to keep this Ansible role useful.
 
+I test this role on the following devices
+* [Cisco IE3000 Industrial Ethernet Switch](http://www.cisco.com/c/en/us/support/switches/ie-3000-8tc-industrial-ethernet-switch/model.html) running IOS 15.0(2)EY3. This is my primary test platform because it is quiet!
+* Cisco 1800 router. I only use this occasionally because it is very noisy. 
+* Cisco 2900 switch. I only use this occasionally because it is very noisy.
+
 Markus Juenemann, May-2017
