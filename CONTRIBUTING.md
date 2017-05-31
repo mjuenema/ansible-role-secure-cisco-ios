@@ -15,8 +15,8 @@ to be the ultimate authority on the subject either. Inevitably there is going to
 simplicity that must be balanced to keep this Ansible role useful.
 
 I test this role on the following devices
-* [Cisco IE3000 Industrial Ethernet Switch](http://www.cisco.com/c/en/us/support/switches/ie-3000-8tc-industrial-ethernet-switch/model.html) running IOS 15.0(2)EY3. Unfortunately its 8 port Ethernet switch is faulty but is my preferred test 
-  unit because it is fanless and quiet!
+* [Cisco IE3000 Industrial Ethernet Switch](http://www.cisco.com/c/en/us/support/switches/ie-3000-8tc-industrial-ethernet-switch/model.html)(with a faulty Ethernet switch) running IOS 15.0(2)EY3. This is my preferred test 
+  unit because it is fanless and perfectly quiet!
 * Cisco 1800 router. I only use this occasionally because it is very noisy. 
 * Cisco 2900 switch. I only use this occasionally because it is very noisy.
 
