@@ -1,0 +1,114 @@
+
+# ---------------------------------------------------------
+#
+#  Global settings
+#
+secureios_domain_lookup: false
+secureios_domain_name: example.com
+
+
+# ---------------------------------------------------------
+#
+# Local users(s)
+#
+secureios_user_name: cisco
+secureios_user_password: cisco
+secureios_enable_secret: enable
+
+# ---------------------------------------------------------
+#
+# TACACS+
+#
+#tacacs_servers:
+#  - tacacshost1
+#  - tacacshost2
+#tacacs_server_key: tacacskey
+#tacacs_server_timeout: 5
+#tacacs_source_interface: loopback0
+
+
+# ---------------------------------------------------------
+#
+#  Exception to FTP server
+#
+exception_ftp_username: exceptionsuser
+exception_ftp_password: exceptionspassword
+exception_ftp_server: 10.1.2.3
+
+
+# ---------------------------------------------------------
+#
+# NTP
+#
+ntp_servers:
+  - 103.236.162.131
+  - 27.124.125.251
+  - 129.250.35.250
+  - 121.0.0.42
+timezone_name: AEST
+timezone_offset_hours: 10
+timezone_offset_minutes: 0
+
+
+# ---------------------------------------------------------
+#
+# Netflow
+#
+netflow_destinations:
+  - {host: '10.1.2.3', port: 1234}
+  - {host: '10.1.2.4', port: 1235}
+
+
+# ---------------------------------------------------------
+#
+#  Syslog
+#
+logging_destinations:
+  - 10.1.2.3
+  - 10.1.2.4
+
+
+# ---------------------------------------------------------
+#
+#  SNMP
+#
+snmp_managers:
+  - 10.1.2.3
+  - 10.1.2.4
+snmp_readonly_communities:
+  - public1
+  - public2
+snmp_readwrite_communities:
+  - private1
+  - private2
+
+
+# ---------------------------------------------------------
+#
+# List of ADDRESS/MASK allowed to SSH into the router
+#
+# The resulting command will be
+#   access-list 105 permit tcp ADDRESS MASK host 0.0.0.0 eq 22 log
+#
+# MASK can be ommited.
+#
+# !!! ADJUST THIS !!!
+# TODO: IPv6
+#
+vty_acl_sources:
+  - {host: '10.0.0.0',    mask: '0.255.255.255'}
+  - {host: '192.168.0.0', mask: '0.0.255.255'}
+  - {host: '172.16.0.0',  mask: '0.15.255.255'}
+
+# The secure sources have a reserved VTY in case vty 0 3 are occupied
+# This is a list of individual IPv4 addresses.
+# TODO: IPv6
+#
+vty_acl_secure_sources:
+  - 10.1.1.101
+
+
+
+
+
+test_address: 192.0.2.0
