@@ -7,6 +7,19 @@ An Ansible Role for hardening Cisco IOS routers or switches based on the followi
 * [Secure IOS Template by Team Cymru](https://www.cymru.com/Documents/secure-ios-template.html)
 * More to add...
 
+**This is not a general purpose role for configuring Cisco IOS devices.**
+
+The sole objective of this role is to ensure that the configuration of a Cisco IOS router or switch meets a minimum security level.
+Configuring interfaces, routing, and so forth is outside the scope of this role. There may even be additional configuration options
+to further enhance the security level which are currently not covered by this role.
+
+Important advice:
+* Don't blindly trust this role. Try to understand what changes the role may apply.
+* Perform dry-runs.
+* Always test on non-production routers/switches first.
+* Use the `--limit` command line argument as well as the `serial` option for rolling updates.
+* See [CONTRIBUTING.md](CONTRIBUTING.md) for information on how to make this role better.
+
 ## Requirements
 
 Ansible needs SSH access to the target Cisco IOS routers or switches. A minimal Cisco IOS configuration is shown below.
@@ -201,12 +214,17 @@ secure_cisco_ios_logging_source_interface: Loopback0
 
 ### Time and NTP
 
-Configure NTP client and server functionality.
+Set timezone.
 
 ```
 secure_cisco_ios_timezone: UTC
 secure_cisco_ios_timezone_offset_hours: 0
 secure_cisco_ios_timezone_offset_minutes: 0
+```
+
+Configure the router as an NTP client. 
+
+```
 secure_cisco_ios_ntp_servers: []
 ```
 
@@ -231,6 +249,33 @@ secure_cisco_ios_timezone_offset_minutes: 0
 secure_cisco_ios_ntp_servers:
   - {'server': 10.2.3.5', 'source': 'Loopback0'}
   - {'server': 10.2.3.4', 'iburst': true, 'minpoll': 4, 'source': 'Loopback0'}
+```
+
+Configure the router as an NTP server.
+
+```
+secure_cisco_ios_ntp_master: false
+```
+
+Configure NTP keys. The keys are a list of cleartext keys, MD5 hashing will be performed automatically. The keys are
+numbered sequentially, i.e. the second key in the list will have a key ID of 1 as the numbering starts with 0. This
+is implemented by 
+[Looping bver a list with an index](https://docs.ansible.com/ansible/playbooks_loops.html#looping-over-a-list-with-an-index)
+
+```
+secure_cisco_ios_ntp_keys: []
+```
+
+**Example**
+
+```
+secure_cisco_ios_ntp_keys: 
+  - CLEARTEXTKEY1
+  - CLEARTEXTKEY2
+  
+secure_cisco_ios_ntp_servers:
+  - {'server': 10.2.3.5', 'key': 2}
+  # Use CLEARTEXTKEY2 for server 10.2.3.5
 ```
 
 ### Interfaces
@@ -265,7 +310,20 @@ that are easily physically accessible to prevent people from plugging in additio
 
 ### Banner
 
-### SNMP  
+```
+secure_cisco_ios_banner: |
+    ==========================================================================================
+                    UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED
+    You must have explicit, authorized permission to access or configure this device.
+    Unauthorized attempts and actions to access or use this system may result in civil and/or
+    criminal penalties.
+    All activities performed on this device are logged and monitored.
+    ==========================================================================================
+```
+
+### SNMP 
+
+
 
 ### Netflow
 
