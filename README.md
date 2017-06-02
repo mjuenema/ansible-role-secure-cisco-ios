@@ -61,94 +61,15 @@ separate documents.
 * [TACACS+](docs/variables_tacacs.md)
 * [Radius](docs/variables_radius.md)
 * [Custom AAA](docs/variables_custom_aaa.md)
+* [Interfaces](docs/variables_interfaces.md)
+* [Line access](docs/variables_line_access.md)
+* [Banner](docs/variables_banner.md)
 * [Syslog](docs/variables_syslog.md)
 * [Time and NTP](docs/variables_time_ntp.md)
-
-### Line access
-
-### Interfaces
-
-Configuring "real" interfaces outside the scope of this role but some security related settings can be performed. In
-addition the role will ensure that a `Null0` interface is present.
-
-This is on the [TODO](Todo.md) list.
-
-```
-secure_cisco_ios_cdp_enabled_interfaces: []
-```
-
-List of interface name prefixes on which to enable Cisco Discovery Protocol (CDP). The role will disable CDP on 
-all other interfaces.
-
-**Example**
-
-```
-# Enable CDP on FastEthernet interfaces 1 and 2
-secure_cisco_ios_cdp_enabled_interfaces:
-  - FastEthernet1
-  - FastEthernet2
-```
-
-```
-secure_cisco_ios_shutdown_unused_ethernet_interfaces: false
-```
-
-Shutdown any Ethernet interfaces where the line-protocol is down. This may be particularly useful for switches
-that are easily physically accessible to prevent people from plugging in additional devices. 
-
-### Banner
-
-```
-secure_cisco_ios_banner: |
-    ==========================================================================================
-                    UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED
-    You must have explicit, authorized permission to access or configure this device.
-    Unauthorized attempts and actions to access or use this system may result in civil and/or
-    criminal penalties.
-    All activities performed on this device are logged and monitored.
-    ==========================================================================================
-```
-
-### SNMP 
-
-
-
-### Netflow
-
-### Exception core files
-
-Configure the router/switch to write exception core files to a TFTP or FTP server. The FTP `secure_cisco_ios_exception_ftp_username`
-and `secure_cisco_ios_exception_ftp_password` variables are only used if `secure_cisco_ios_exception_protocol` is changed
-to `ftp`. Remember that `secure_cisco_ios_exception_dump` must be an IP address if `secure_cisco_ios_domain_lookup` is false.
-
-```
-secure_cisco_ios_exception_dump:
-secure_cisco_ios_exception_protocol: tftp
-secure_cisco_ios_exception_core_file: "{{ inventory_hostname }}-core"
-secure_cisco_ios_exception_ftp_username:
-secure_cisco_ios_exception_ftp_password:
-```
-
-**Example**
-
-```
-secure_cisco_ios_exception_dump: 10.9.8.7
-secure_cisco_ios_exception_protocol: ftp
-secure_cisco_ios_exception_core_file: "{{ inventory_hostname }}-core"
-secure_cisco_ios_exception_ftp_username: USERNAME
-secure_cisco_ios_exception_ftp_password: PASSWORD
-```
-
-Will result in the following IOS config.
-
-```
-! Exception core dump
-ip ftp username ftp USERNAME
-ip ftp username password 7 HASH_OF_PASSWORD
-exception core-file HOSTNAME-core
-exception protocol ftp
-exception dump 10.9.8.7
-```
+* [SNMP](docs/variables_snmp.md)
+* [Netflow](docs/variables_netflow.md)
+* [Exception core files](variables_exception.md)
+* [Custom configuration lines](variables_custom_lines.md)
 
 ## Notes
 
@@ -197,15 +118,6 @@ interface Loopback0
  no ip redirects
  no ip unreachables
  no ip proxy-arp
-```
-
-### Custom settings
-
-The variable `secure_cisco_ios_custom_lines` can be used to add any additional configuration lines, e.g.
-
-```
-secure_cisco_ios_custom_lines:
-  - no service dhcp
 ```
 
 ## Dependencies
