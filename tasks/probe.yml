@@ -1,0 +1,14 @@
+---
+
+# ansible-role-secure-cisco-ios/tasks/probe.yml
+
+- name: Probe Netflow support
+  ios_config:
+    provider: "{{ provider }}"
+    lines:
+      - "ip flow-export destination {{test_address}} 65535"
+      - "no ip flow-export destination {{test_address}} 65535"
+  register: netflow_supported
+  ignore_errors: yes
+
+

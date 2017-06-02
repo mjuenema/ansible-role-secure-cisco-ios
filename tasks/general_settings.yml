@@ -1,0 +1,42 @@
+---
+
+# ansible-role-secure-cisco-ios/tasks/general_settings.yml
+
+- name: Configure hard-coded general settings
+  ios_config:
+    provider: "{{ provider }}"
+    lines: "{{ secure_cisco_ios_always_lines }}"
+
+
+- name: Disable DNS lookups
+  ios_config:
+    provider: "{{ provider }}"
+    lines:
+      - no ip domain-lookup
+  when: not secure_cisco_ios_domain_lookup
+
+- debug:
+    msg: "********** DNS lookups are disabled **********"
+  when: not secure_cisco_ios_domain_lookup
+
+
+- name: Host name
+  ios_config:
+    provider: "{{ provider }}"
+    lines:
+      - "hostname {{ secure_cisco_ios_hostname }}"
+
+
+- name: Domain name
+  ios_config:
+    provider: "{{ provider }}"
+    lines:
+      - "ip domain-name {{ secure_cisco_ios_domain_name }}"
+
+
+- name: Disable CDP globally
+  ios_config:
+    provider: "{{ provider }}"
+    lines:
+      - no cdp run
+  when: not secure_cisco_ios_enable_cdp_globally

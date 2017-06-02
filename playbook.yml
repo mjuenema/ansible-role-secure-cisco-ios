@@ -6,12 +6,13 @@
   connection: local
   vars:
     provider:
-      host: "{{ inventory_hostname }}"
-      username: cisco
-      password: cisco
-      authorize: yes
-      auth_pass: enable
-      # TODO: variables for usernane/password/auth_pass
+      host: "{{ ansible_host }}"
+      username: "{{ secure_cisco_ios_provider_username }}"
+      password: "{{ secure_cisco_ios_provider_password }}"
+      authorize: "{{ secure_cisco_ios_provider_authorize }}"
+      auth_pass: "{{ secure_cisco_ios_provider_auth_pass }}"
+      port: "{{ secure_cisco_ios_provider_port }}"
+      timeout: "{{ secure_cisco_ios_provider_timeout }}"
 
   tasks:
 

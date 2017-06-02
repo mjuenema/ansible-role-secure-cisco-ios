@@ -1,0 +1,17 @@
+---
+
+# ansible-role-secure-cisco-ios/tasks/local_users.yml
+
+- name: Configure local users
+  ios_config:
+    provider: "{{ provider }}"
+    lines: "username {{item.username}} password 5 {{item.password|ciscohash5}}"
+  with_dict: "{{ secure_cisco_ios_local_users }}"
+
+
+- name: Remove local users
+  ios_config:
+    provider: "{{ provider }}"
+    lines: "no username {{item}}"
+  with_items: "{{ secure_cisco_ios_absent_local_users }}"
+

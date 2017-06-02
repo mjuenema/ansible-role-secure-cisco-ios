@@ -1,0 +1,171 @@
+{
+    "ansible_facts": {
+        "ansible_net_all_ipv4_addresses": [
+            "10.1.1.26"
+        ],
+        "ansible_net_all_ipv6_addresses": [],
+        "ansible_net_config": "***Output of show running-config goes here***",
+        "ansible_net_filesystems": [
+            "flash:"
+        ],
+        "ansible_net_gather_subset": [
+            "hardware",
+            "default",
+            "interfaces",
+            "config"
+        ],
+        "ansible_net_hostname": "ie3000",
+        "ansible_net_image": "flash:/ies-ipservicesk9-mz.150-2.EY3/ies-ipservicesk9-mz.150-2.EY3.bin",
+        "ansible_net_interfaces": {
+            "FastEthernet1/1": {
+                "bandwidth": 10000,
+                "description": null,
+                "duplex": null,
+                "ipv4": null,
+                "lineprotocol": "down (notconnect) ",
+                "macaddress": "0021.56b5.7483",
+                "mediatype": "10/100BaseTX",
+                "mtu": 1500,
+                "operstatus": "down",
+                "type": "Fast Ethernet"
+            },
+            "FastEthernet1/2": {
+                "bandwidth": 10000,
+                "description": null,
+                "duplex": null,
+                "ipv4": null,
+                "lineprotocol": "down (notconnect) ",
+                "macaddress": "0021.56b5.7484",
+                "mediatype": "10/100BaseTX",
+                "mtu": 1500,
+                "operstatus": "down",
+                "type": "Fast Ethernet"
+            },
+            "FastEthernet1/3": {
+                "bandwidth": 10000,
+                "description": null,
+                "duplex": null,
+                "ipv4": null,
+                "lineprotocol": "down (notconnect) ",
+                "macaddress": "0021.56b5.7485",
+                "mediatype": "10/100BaseTX",
+                "mtu": 1500,
+                "operstatus": "down",
+                "type": "Fast Ethernet"
+            },
+            "FastEthernet1/4": {
+                "bandwidth": 10000,
+                "description": null,
+                "duplex": null,
+                "ipv4": null,
+                "lineprotocol": "down (notconnect) ",
+                "macaddress": "0021.56b5.7486",
+                "mediatype": "10/100BaseTX",
+                "mtu": 1500,
+                "operstatus": "down",
+                "type": "Fast Ethernet"
+            },
+            "FastEthernet1/5": {
+                "bandwidth": 10000,
+                "description": null,
+                "duplex": null,
+                "ipv4": null,
+                "lineprotocol": "down (notconnect) ",
+                "macaddress": "0021.56b5.7487",
+                "mediatype": "10/100BaseTX",
+                "mtu": 1500,
+                "operstatus": "down",
+                "type": "Fast Ethernet"
+            },
+            "FastEthernet1/6": {
+                "bandwidth": 10000,
+                "description": null,
+                "duplex": null,
+                "ipv4": null,
+                "lineprotocol": "down (notconnect) ",
+                "macaddress": "0021.56b5.7488",
+                "mediatype": "unknown",
+                "mtu": 1500,
+                "operstatus": "down",
+                "type": "Fast Ethernet"
+            },
+            "FastEthernet1/7": {
+                "bandwidth": 10000,
+                "description": null,
+                "duplex": null,
+                "ipv4": null,
+                "lineprotocol": "down (notconnect) ",
+                "macaddress": "0021.56b5.7489",
+                "mediatype": "10/100BaseTX",
+                "mtu": 1500,
+                "operstatus": "down",
+                "type": "Fast Ethernet"
+            },
+            "FastEthernet1/8": {
+                "bandwidth": 10000,
+                "description": null,
+                "duplex": null,
+                "ipv4": null,
+                "lineprotocol": "down (notconnect) ",
+                "macaddress": "0021.56b5.748a",
+                "mediatype": "10/100BaseTX",
+                "mtu": 1500,
+                "operstatus": "down",
+                "type": "Fast Ethernet"
+            },
+            "GigabitEthernet1/1": {
+                "bandwidth": 1000000,
+                "description": null,
+                "duplex": null,
+                "ipv4": null,
+                "lineprotocol": "up (connected) ",
+                "macaddress": "0021.56b5.7481",
+                "mediatype": "10/100/1000BaseTX",
+                "mtu": 1500,
+                "operstatus": "up",
+                "type": "Gigabit Ethernet"
+            },
+            "GigabitEthernet1/2": {
+                "bandwidth": 10000,
+                "description": null,
+                "duplex": null,
+                "ipv4": null,
+                "lineprotocol": "down (notconnect) ",
+                "macaddress": "0021.56b5.7482",
+                "mediatype": "Not Present",
+                "mtu": 1500,
+                "operstatus": "down",
+                "type": "Gigabit Ethernet"
+            },
+            "Vlan1": {
+                "bandwidth": 1000000,
+                "description": null,
+                "duplex": null,
+                "ipv4": {
+                    "address": "10.1.1.26",
+                    "masklen": 24
+                },
+                "lineprotocol": "up ",
+                "macaddress": "0021.56b5.74c0",
+                "mediatype": null,
+                "mtu": 1500,
+                "operstatus": "up",
+                "type": "EtherSVI"
+            }
+        },
+        "ansible_net_memfree_mb": 37206,
+        "ansible_net_memtotal_mb": 63143,
+        "ansible_net_model": null,
+        "ansible_net_neighbors": {
+            "null": [
+                {
+                    "host": null,
+                    "port": null
+                }
+            ]
+        },
+        "ansible_net_serialnum": "FOC1242Y2B5",
+        "ansible_net_version": "15.0(2)EY3"
+    },
+    "changed": false
+}

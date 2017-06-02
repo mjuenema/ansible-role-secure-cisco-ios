@@ -1,0 +1,8 @@
+
+# ansible-role-secure-cisco-ios/tasks/collect_facst.yml
+
+
+- name: Collect all facts from router/switch
+  ios_facts:
+    provider: "{{ provider }}"
+    gather_subset: all
