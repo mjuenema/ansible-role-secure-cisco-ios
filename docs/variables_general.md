@@ -9,7 +9,7 @@ configuration settings.
 
 ```yaml
 secure_cisco_ios_hostname: "{{ inventory_hostname }}"
-secure_cisco_ios_domain_name: example.com
+secure_cisco_ios_domain_name:
 ```
 
 This variable has a default value which most certainly will have to be changed to configure `ip domain-name`.
@@ -23,6 +23,13 @@ Ansible will not change the existing enable secret if this variable is undefined
 
 Be careful not to lock yourself (and Ansible) out of the router or switch. If necessary update 
 `secure_cisco_ios_provider_auth_pass` to the same value before the next execution of this role.
+
+```yaml
+secure_cisco_ios_enable_cdp_globally: false
+```
+
+Whether to enable Cisco Discovery Protocol globally. See also `secure_cisco_ios_cdp_interfaces` for how to enable CDP
+on individual interfaces.
 
 ```yaml
 secure_cisco_ios_save_config: true
