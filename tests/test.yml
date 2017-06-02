@@ -1,5 +1,15 @@
 ---
-- hosts: localhost
-  remote_user: root
+- hosts: all
+  gather_facts: no
+  connection: local
+  vars:
+    provider:
+      host: "{{ ansible_host }}"
+      username: "{{ secure_cisco_ios_provider_username }}"
+      password: "{{ secure_cisco_ios_provider_password }}"
+      authorize: "{{ secure_cisco_ios_provider_authorize }}"
+      auth_pass: "{{ secure_cisco_ios_provider_auth_pass }}" 
+      port: "{{ secure_cisco_ios_provider_port }}" 
+      timeout: "{{ secure_cisco_ios_provider_timeout }}"
   roles:
-    - secure-cisco-ios
+    - ansible-role-secure-cisco-ios

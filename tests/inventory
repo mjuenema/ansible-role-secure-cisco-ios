@@ -1,2 +1,1 @@
-localhost
-
+ie3000	ansible_host=10.1.1.26

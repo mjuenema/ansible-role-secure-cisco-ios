@@ -1,0 +1,46 @@
+---
+
+# ansible-role-secure-cisco-ios/tasks/aaa.yml
+
+- name: Configure AAA authentication (local-only)
+  ios_config:
+    provider: "{{ provider }}"
+    lines: "{{ items }}"
+      - "aaa authentication login default local-case"
+      - "aaa authentication enable default enable"
+  when: not secure_cisco_ios_tacacs_servers
+
+
+- name: Configure AAA authentication (TACACS+ and local)
+  ios_config:
+    provider: "{{ provider }}"
+    lines: "{{ items }}"
+      - "aaa authentication login default group tacacs+ local-case"
+      - "aaa authentication enable default group tacacs+ enable"
+  when: secure_cisco_ios_tacacs_servers
+
+
+- name: Configure AAA authorization (local-only)
+  ios_config:
+    provider: "{{ provider }}"
+    lines: "{{ items }}"
+      - "aaa authorization commands 15 default local"
+  when: not secure_cisco_ios_tacacs_servers
+
+
+- name: Configure AAA authorization (TACACS+ and local)
+  ios_config:
+    provider: "{{ provider }}"
+    lines: "{{ items }}"
+      - "aaa authorization commands 15 default group tacacs+ local"
+  when: secure_cisco_ios_tacacs_servers
+
+
+- name: Configure AAA accounting (TACACS+)
+  ios_config:
+    provider: "{{ provider }}"
+    lines: "{{ items }}"
+      - "aaa accounting exec default stop-only group tacacs+"
+      - "aaa accounting commands 15 default stop-only group tacacs+"
+      - "aaa accounting network default stop-only group tacacs+"
+  when: secure_cisco_ios_tacacs_servers

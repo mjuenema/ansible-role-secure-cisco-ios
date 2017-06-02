@@ -1,2 +1,4 @@
 ---
-# vars file for secure-cisco-ios
+#
+# ansible-role-secure-cisco-ios/vars/main.yml
+#

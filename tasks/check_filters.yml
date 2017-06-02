@@ -1,0 +1,13 @@
+---
+
+# ansible-role-secure-cisco-ios/tasks/check_filters.yml
+
+- name: Check for Cisco password hash filters
+  set_fact: 
+    _ciscohash5: "{{password|ciscohash5}}"
+    _ciscohash7: "{{password|ciscohash7}}"
+  ignore_errors: yes
+
+- fail:
+    msg: "Please install and add the 'ansible-filter-cisco-hash' role"
+  when: _ciscohash5 is undefined or _ciscohash7 is undefined

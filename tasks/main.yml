@@ -1,2 +1,30 @@
 ---
-# tasks file for secure-cisco-ios
+
+# ansible-role-secure-cisco-ios/tasks/main.yml
+
+- name: Check that all necessary variables have been set
+  include: check_vars.yml
+
+
+- name: Check that all necessary filters are available
+  include: check_filters.yml
+
+
+- name: Collect facts
+  include: collect_facts.yml
+
+
+- name: Probe router/switch for features
+  include: probe.yml
+
+
+- name: General settings
+  include: general_settings.yml
+
+
+- name: Local users
+  include: local_users.yml
+
+
+- name: TACACS+
+  include: tacacs.yml

@@ -1,0 +1,34 @@
+---
+
+# ansible-role-secure-cisco-ios/tasks/checkvars.yml
+#
+# Check that essential variables have been set
+
+- name: Check provider username variable
+  fail:
+    msg: "secure_cisco_ios_provider_username must be set"
+  when: not secure_cisco_ios_provider_username
+
+
+- name: Check provider password variable
+  fail:
+    msg: "secure_cisco_ios_provider_password must be set"
+  when: not secure_cisco_ios_provider_password
+
+
+- name: Check provider auth_pass variable
+  fail:
+    msg: "secure_cisco_ios_provider_auth_pass must be set"
+  when: secure_cisco_ios_provider_authorize and not secure_cisco_ios_provider_auth_pass
+
+
+- name: Check domain name variable
+  fail:
+    msg: "secure_cisco_ios_domain_name must be set"
+  when: not secure_cisco_ios_domain_name
+
+
+- name: Check TACACS+ key if servers are defined
+  fail:
+    msg: "secure_cisco_ios_tacacs_server_key must be set if secure_cisco_ios_tacacs_servers is set"
+  when: secure_cisco_ios_tacacs_servers and not secure_cisco_ios_tacacs_server_key

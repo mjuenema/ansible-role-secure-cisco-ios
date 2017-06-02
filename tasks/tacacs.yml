@@ -1,0 +1,31 @@
+---
+
+# ansible-role-secure-cisco-ios/tasks/tacacs.yml
+
+
+- name: TACACS+ source interface
+  ios_config:
+    provider: "{{ provider }}"
+    lines: "ip tacacs source-interface {{ secure_cisco_ios_tacacs_source_interface }}"
+  when: secure_cisco_ios_tacacs_servers and secure_cisco_ios_tacacs_source_interface
+
+
+- name: TACACS+ key
+  ios_config:
+    provider: "{{ provider }}"
+    lines: "tacacs-server key {{ secure_cisco_ios_tacacs_server_key }}"
+  when: secure_cisco_ios_tacacs_servers and secure_cisco_ios_tacacs_server_key
+
+
+- name: TACACS+ timeout
+  ios_config:
+    provider: "{{ provider }}"
+    lines: "tacacs-server timeout {{ secure_cisco_ios_tacacs_server_timeout }}"
+  when: secure_cisco_ios_tacacs_servers and secure_cisco_ios_tacacs_server_timeout
+
+
+- name: TACACS+ servers
+  ios_config:
+    provider: "{{ provider }}"
+    lines: "tacacs-server {{ item }}"
+  with_items: "{{ secure_cisco_ios_tacacs_servers }}"
