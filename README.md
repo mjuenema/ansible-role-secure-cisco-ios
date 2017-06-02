@@ -52,7 +52,7 @@ most variables do not have default values. If a variable is undefined the releva
 settings will usually be omitted from the configuration. This may lead to unintended
 consequences so please read this section carefully.
 
-Because of the large size of variables this section has been split into 
+Because of the large number of variables this section has been split into 
 separate documents.
 
 * [Ansible connection provider settings](docs/variables_provider.md)
@@ -68,8 +68,13 @@ separate documents.
 * [Time and NTP](docs/variables_time_ntp.md)
 * [SNMP](docs/variables_snmp.md)
 * [Netflow](docs/variables_netflow.md)
-* [Exception core files](variables_exception.md)
-* [Custom configuration lines](variables_custom_lines.md)
+* [Exception core files](docs/variables_exception.md)
+* [Custom configuration lines](docs/variables_custom_lines.md)
+
+In addition to role variables, the `ios_facts` module is run to collect
+information about the target router or switch. The
+page [Example output of `ios_facts`](docs/ios_facts.md) shows examples
+for different Cisco IOS routers and switches.
 
 ## Notes
 
