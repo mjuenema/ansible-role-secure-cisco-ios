@@ -46,237 +46,25 @@ line vty 0 3
 
 ## Role Variables
 
-There are a large number of role variables that control what settings this role will apply to an Cisco IOS router or switch. 
-If applicable the default value is shown but most variables do not have default values. If a variable is undefined the relevant 
-settings will usually be omitted from the configuration. This may lead to unintended consequences so please read this section
-carefully.
+There are a large number of role variables that control what settings this role will
+apply to an Cisco IOS router or switch. If applicable the default value is shown but
+most variables do not have default values. If a variable is undefined the relevant 
+settings will usually be omitted from the configuration. This may lead to unintended
+consequences so please read this section carefully.
 
-### Ansible connection provider settings
+Because of the large size of variables this section has been split into 
+separate documents.
 
-The following settings are neccessary to allow Ansible to SSH into the router/switch and change to enable-mode. If these
-variables are undefined the respective values must be provided as environment variables. For more
-information check the `provider` section of the [ios_config](https://docs.ansible.com/ansible/ios_config_module.html) 
-module. It is strongly recommended to store the sensitive varaibles in an encrypted 
-[Vault](http://docs.ansible.com/ansible/playbooks_vault.html).
-
-```
-secure_cisco_ios_provider_username: 
-secure_cisco_ios_provider_password: 
-secure_cisco_ios_provider_authorize: yes
-secure_cisco_ios_provider_auth_pass: 
-secure_cisco_ios_provider_timeout: 10
-secure_cisco_ios_provider_port: 22
-```
-
-Currently SSH public-key authentication, i.e. `secure_cisco_ios_provider_ssh_keyfile` is not supported by this role. 
-
-### General settings
-
-```
-secure_cisco_ios_domain_lookup: false
-```
-  
-Whether to enable `ip domain-lookup`. If `false` (the default) one has to use IP addresses instead of host names in any other 
-configuration settings.
-
-```
-secure_cisco_ios_hostname: "{{ inventory_hostname }}"
-secure_cisco_ios_domain_name: example.com
-```
-
-This variable has a default value which most certainly will have to be changed to configure `ip domain-name`.
-
-```
-secure_cisco_ios_enable_secret:
-```
-
-Set this variable to make Ansible configure the enable secret, and remove any enable password. 
-Ansible will not change the existing enable secret if this variable is undefined (the default). 
-
-Be careful not to lock yourself (and Ansible) out of the router or switch. If necessary update 
-`secure_cisco_ios_provider_auth_pass` to the same value before the next execution of this role.
-
-```
-secure_cisco_ios_save_config: true
-```
-
-Whether to execute `save running-config startup-config` as the last task. Note that the default is true!
-
-### Local users
-
-A list of local users to add in addition to `secure_cisco_ios_provider_username`. This must be a list of dictionaries
-as shown in the example below. It is strongly recommended to store `secure_cisco_ios_local_users` in an encrypted 
-[Vault](http://docs.ansible.com/ansible/playbooks_vault.html).
-
-```
-secure_cisco_ios_local_users: []
-```
-
-**Example**
-
-```
-secure_cisco_ios_local_users:
-  - {'username': 'USER1', 'password': 'PASSWORD1'}
-  - {'username': 'USER2', 'secret': 'SECRET2'}
-  - {'username': 'USER3', 'secret': 'SECRET3', 'privilege': 15 }
-  - {'username': 'USER4', 'nopassword': true}
-```
-
-The example above will result in the following Cisco IOS configuration. The password hashing is performed automatically 
-through the filters in [ansible-filter-cisco-hash](https://github.com/mjuenema/ansible-filter-cisco-hash).
-
-```
-! Local users as defined in the example above
-username USER1 password 7 HASH_OF_PASSWORD1 
-username USER2 secret 5 HASH_OF_SECRET2
-username USER3 privilege 15 secret 5 HASH_OF_SECRET3
-username USER4 nopassword
-```
-
-More complex `username` definitons must be performed through `secure_cisco_ios_custom_lines`. 
-
-It is also possible to ensure that certain local users are not configured by providing a list of names that must be absent.
-
-```
-secure_cisco_ios_absent_local_users: []
-```
-
-**Example**
-
-```
-secure_cisco_ios_absent_local_users:
-  - ABSENT_USER1
-  - ABSENT_USER2
-```
-
-### TACACS+
-
-Configure TACACS+ AAA. 
-
-```
-secure_cisco_ios_tacacs_servers: []
-secure_cisco_ios_tacacs_server_key:
-secure_cisco_ios_tacacs_server_timeout: 5
-secure_cisco_ios_tacacs_source_interface:
-```
-
-The following AAA lines are injected if `secure_cisco_ios_tacacs_servers` is non-empty unless 
-`secure_cisco_ios_custom_aaa` is defined.
-
-```
-! AAA with TACACS+ 
-aaa authentication login default group tacacs+ local-case
-aaa authentication enable default group tacacs+ enable
-aaa authorization commands 15 default group tacacs+ local
-aaa accounting exec default stop-only group tacacs+
-aaa accounting commands 15 default stop-only group tacacs+
-aaa accounting network default stop-only group tacacs+
-```
-
-### Radius
-
-This is on the [TODO](TODO.md) list.
-
-### Custom AAA
-
-The `secure_cisco_ios_custom_aaa` variable can be used to define custom AAA settings. This will also prevent TACACS+
-and Radius settimgs from making their own AAA adjustments.
-
-```
-secure_cisco_ios_custom_aaa: []
-```
+* [Ansible connection provider settings](docs/variables_provider.md)
+* [General settings](docs/variables_general.md)
+* [Local users](docs/variables_local_users.md)
+* [TACACS+](docs/variables_tacacs.md)
+* [Radius](docs/variables_radius.md)
+* [Custom AAA](docs/variables_custom_aaa.md)
+* [Syslog](docs/variables_syslog.md)
+* [Time and NTP](docs/variables_time_ntp.md)
 
 ### Line access
-
-### Syslog
-
-Configure Syslog logging. If `secure_cisco_ios_domain_lookup` is set to false (the default) only IP addresses can be used
-as log destinations!
-
-```
-secure_cisco_ios_logging_destinations: []
-secure_cisco_ios_logging_trap_level: informational
-secure_cisco_ios_logging_facility: local5
-secure_cisco_ios_logging_buffered: 16384
-secure_cisco_ios_logging_source_interface:
-```
-
-**Example**
-
-```
-Example:
-secure_cisco_ios_logging_destinations:
-  - 10.1.2.3
-  - 10.1.2.4
-secure_cisco_ios_logging_trap_level: debugging
-secure_cisco_ios_logging_source_interface: Loopback0
-```
-
-### Time and NTP
-
-Set timezone.
-
-```
-secure_cisco_ios_timezone: UTC
-secure_cisco_ios_timezone_offset_hours: 0
-secure_cisco_ios_timezone_offset_minutes: 0
-```
-
-Configure the router as an NTP client. 
-
-```
-secure_cisco_ios_ntp_servers: []
-```
-
-`secure_cisco_ios_ntp_servers` must be a list of dictionaries with the following keys.
-
-* `server` (required)
-* `version` (1-4)
-* `iburst`
-* `burst`
-* `minpoll` (2^x seconds)
-* `maxpoll` (2^x seconds)
-* `prefer`
-* `source` (source interface)
-* `key` (authentication key)
-
-**Example**
-
-```
-secure_cisco_ios_timezone: AEST
-secure_cisco_ios_timezone_offset_hours: 10
-secure_cisco_ios_timezone_offset_minutes: 0
-secure_cisco_ios_ntp_servers:
-  - {'server': 10.2.3.5', 'source': 'Loopback0'}
-  - {'server': 10.2.3.4', 'iburst': true, 'minpoll': 4, 'source': 'Loopback0'}
-```
-
-Configure the router as an NTP server.
-
-```
-secure_cisco_ios_ntp_master: false
-```
-
-Configure NTP keys. The keys are a list of cleartext keys, MD5 hashing will be performed automatically. The keys are
-numbered sequentially, i.e. the second key in the list will have a key ID of 1 as the numbering starts with 0. This
-is implemented by 
-[Looping bver a list with an index](https://docs.ansible.com/ansible/playbooks_loops.html#looping-over-a-list-with-an-index)
-
-```
-secure_cisco_ios_ntp_keys: []
-```
-
-**Example**
-
-```
-secure_cisco_ios_ntp_keys: 
-  - CLEARTEXTKEY1
-  - CLEARTEXTKEY2
-  
-secure_cisco_ios_ntp_servers:
-  - {'server': 10.2.3.5', 'key': 2}
-  # Use CLEARTEXTKEY2 for server 10.2.3.5
-```
 
 ### Interfaces
 
