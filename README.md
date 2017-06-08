@@ -31,7 +31,8 @@ Ansible needs SSH access to the target Cisco IOS routers or switches. A minimal 
 !
 hostname HOSTNAME
 ip domain-name DOMAINNAME
-crypto key generate rsa
+crypto key generate rsa general-keys label SSHKEY modulus 2048
+ip ssh rsa keypair-name SSHKEY
 service password-encryption
 enable secret 0 ENABLESECRET
 username USERNAME password 0 PASSWORD
@@ -42,6 +43,16 @@ aaa authorization commands 15 default local
 line vty 0 3
   transport input ssh
   login local
+```
+
+There is a known issue with recent OpenSSH versions and SSH as implemented in Cisco IOS 12.x which causes
+the error message "no matching key exchange method found. Their offer: diffie-hellman-group1-sha1". This is because
+recent OpenSSH have "diffie-hellman-group1-sha1" disabled by default. Either execute `ssh -o KexAlgorithms=diffie-hellman-group1-sha1 ...` or edit `~/.ssh/config` as shown below. Check `man ssh-config` for details.
+
+```
+# ~/.ssh/config
+Host <name_or_IP_of_router>
+    KexAlgorithms   diffie-hellman-group1-sha1
 ```
 
 ## Role Variables
